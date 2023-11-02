@@ -11,11 +11,11 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
 
     try {
         const query = `
-            select p.name, count(*) as deaths
+            select p.name, count(*) as count
             from players p
                      join amongus a on p.id = a.first_death
             group by p.name
-            order by deaths desc
+            order by count desc
             limit 5;
         `;
 

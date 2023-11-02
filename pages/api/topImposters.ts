@@ -11,12 +11,12 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
 
     try {
         const query = `
-            SELECT players.name, COUNT(*) AS wins
+            SELECT players.name, COUNT(*) AS count
             FROM players
                      JOIN amongus ON players.id = ANY(amongus.imposters)
             WHERE amongus.winning_team = 'Imposters'
             GROUP BY players.name
-            ORDER BY wins desc
+            ORDER BY count desc
             limit 5;
         `;
 

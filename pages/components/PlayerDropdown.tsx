@@ -24,12 +24,13 @@ const PlayerDropdown: React.FC<Props> = ({ players, onSelect }) => {
                 onSelect(player);
             }
         } else {
-            setSelectedPlayer(undefined);
+            setSelectedPlayer(-1); // Set to '-1' for 'All'
             if (onSelect) {
                 onSelect(null);  // Send null when 'All' is selected
             }
         }
     };
+
 
 
 
