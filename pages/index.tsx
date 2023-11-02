@@ -23,22 +23,24 @@ type PlayerStat = {
     games_won_as_imposter: number;
     games_lost_as_imposter: number;
     times_died_first: number;
+    creator_flag: boolean;
+    guest_flag: boolean;
 };
 
 // @ts-ignore
 export default function Home({players, playerStats, games, topImposters, topDeaths}) {
     const [selectedPlayer, setSelectedPlayer] = useState<{id: number, name: string} | null>(null);
 
-    const filteredStats = (selectedPlayer ? playerStats.filter((stats: PlayerStat) => stats.id === selectedPlayer.id)
-            : playerStats
-    ).sort((a: PlayerStat, b: PlayerStat) => a.name.localeCompare(b.name));
+    const sortedStats = playerStats.sort((a: Player, b: Player) => a.name.localeCompare(b.name));
+    const regularPlayers = sortedStats.filter((stats: PlayerStat) => !stats.guest_flag);
+    const guestPlayers = sortedStats.filter((stats: PlayerStat) => stats.guest_flag);
 
     let sortedPlayers = players.sort((a: Player, b: Player) => a.name.localeCompare(b.name));
 
     return (
         <Grid container direction="column" alignItems="center" spacing={3}>
             <Grid item xs={12}>
-                <Typography variant="h4" align="center">Among Us Stats</Typography>
+                <Typography variant="h1" align="center">Among Us Stats</Typography>
             </Grid>
 
             <Grid item xs={12}>
@@ -86,27 +88,82 @@ export default function Home({players, playerStats, games, topImposters, topDeat
                     }
                 }} />
             </Grid>
-
-            <Grid container item xs={12} spacing={3}>
-                {filteredStats.map((player: any) => (
-                    <Grid item xs={12} sm={6} md={4} lg={3} key={player.name}>
-                        <Card>
-                            <CardContent>
-                                <Typography>Player Name: {player.name}</Typography>
-                                <Typography>Games Played: {player.games_played}</Typography>
-                                <Typography>Imposter Wins: {player.games_won_as_imposter}</Typography>
-                                <Typography>
-                                    Imposter Win/Loss Ratio: {player.games_lost_as_imposter !== 0
-                                    ? (player.games_won_as_imposter / player.games_lost_as_imposter).toFixed(2)
-                                    : 'N/A'}
-                                </Typography>
-                                <Typography>Imposter Losses: {player.games_lost_as_imposter}</Typography>
-                                <Typography>First Deaths: {player.times_died_first}</Typography>
-                            </CardContent>
-                        </Card>
+            {!selectedPlayer && (
+                <>
+                    <Typography variant="h4" align="center">Regulars</Typography>
+                    <Grid container item xs={12} spacing={3} justifyContent="center">
+                        {regularPlayers.map((player: any) =>(
+                            <Grid item xs={12} sm={6} md={3} key={player.name}>
+                                <Card>
+                                    <CardContent>
+                                        <Typography>Player Name: {player.name}</Typography>
+                                        <Typography>Games Played: {player.games_played}</Typography>
+                                        <Typography>Imposter Wins: {player.games_won_as_imposter}</Typography>
+                                        <Typography>
+                                            Imposter Win/Loss Ratio: {player.games_lost_as_imposter !== 0
+                                            ? (player.games_won_as_imposter / player.games_lost_as_imposter).toFixed(2)
+                                            : 'N/A'}
+                                        </Typography>
+                                        <Typography>Imposter Losses: {player.games_lost_as_imposter}</Typography>
+                                        <Typography>First Deaths: {player.times_died_first}</Typography>
+                                    </CardContent>
+                                </Card>
+                            </Grid>
+                        ))}
                     </Grid>
-                ))}
-            </Grid>
+                </>
+            )}
+
+            {!selectedPlayer && (
+                <>
+                    <Typography variant="h4" align="center">Guest</Typography>
+                    <Grid container item xs={12} spacing={3} justifyContent="center">
+                        {guestPlayers.map((player: any) =>(
+                            <Grid item xs={12} sm={6} md={3} key={player.name}>
+                                <Card>
+                                    <CardContent>
+                                        <Typography>Player Name: {player.name}</Typography>
+                                        <Typography>Games Played: {player.games_played}</Typography>
+                                        <Typography>Imposter Wins: {player.games_won_as_imposter}</Typography>
+                                        <Typography>
+                                            Imposter Win/Loss Ratio: {player.games_lost_as_imposter !== 0
+                                            ? (player.games_won_as_imposter / player.games_lost_as_imposter).toFixed(2)
+                                            : 'N/A'}
+                                        </Typography>
+                                        <Typography>Imposter Losses: {player.games_lost_as_imposter}</Typography>
+                                        <Typography>First Deaths: {player.times_died_first}</Typography>
+                                    </CardContent>
+                                </Card>
+                            </Grid>
+                        ))}
+                    </Grid>
+                </>
+            )}
+
+            {selectedPlayer && (
+                <Grid container item xs={12} spacing={3} justifyContent="center" alignItems="center">
+                    {sortedStats.filter((stats: PlayerStat) => stats.id === selectedPlayer.id).map((player: any) => (
+                        <Grid item xs={12} sm={6} md={3} key={player.name}>
+                            <Card>
+                                <CardContent>
+                                    <Typography>Player Name: {player.name}</Typography>
+                                    <Typography>Games Played: {player.games_played}</Typography>
+                                    <Typography>Imposter Wins: {player.games_won_as_imposter}</Typography>
+                                    <Typography>
+                                        Imposter Win/Loss Ratio: {player.games_lost_as_imposter !== 0
+                                        ? (player.games_won_as_imposter / player.games_lost_as_imposter).toFixed(2)
+                                        : 'N/A'}
+                                    </Typography>
+                                    <Typography>Imposter Losses: {player.games_lost_as_imposter}</Typography>
+                                    <Typography>First Deaths: {player.times_died_first}</Typography>
+                                </CardContent>
+                            </Card>
+                        </Grid>
+                    ))}
+                </Grid>
+            )}
+
+
 
         </Grid>
     );

@@ -53,7 +53,9 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
             COALESCE(gp.games_played, 0) AS games_played,
             COALESCE(gwi.games_won_as_imposter, 0) AS games_won_as_imposter,
             COALESCE(gli.games_lost_as_imposter, 0) AS games_lost_as_imposter,
-            COALESCE(tdf.times_died_first, 0) AS times_died_first
+            COALESCE(tdf.times_died_first, 0) AS times_died_first,
+            p.creator_flag,
+            p.guest_flag
         FROM players p
         LEFT JOIN games_played gp ON p.id = gp.id
         LEFT JOIN games_won_as_imposter gwi ON p.id = gwi.id
