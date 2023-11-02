@@ -25,7 +25,7 @@ const PlayerCard: React.FC<Props> = ({ player }) => {
                 <CardContent>
                     <img src="/images/blankavatar.png" width="100px" alt={`${player.name}'s avatar`} /> {/* Assuming avatar images are named after the player and stored in a specific directory */}
                     <Typography>{player.name}</Typography>
-                    <a href={`https://twitch.tv/${player.name}`} target="_blank">Twitch</a> {/* Assuming twitch_url exists in your data */}
+                    {player.creator_flag && <a href={`https://twitch.tv/${player.name}`} target="_blank">Twitch</a>}
 
                     <div>
                         <Button onClick={() => setIsCollapsed(!isCollapsed)}>
