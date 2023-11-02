@@ -9,12 +9,31 @@ import { Card, CardContent, Grid, Typography } from '@mui/material';
 
 const inter = Inter({ subsets: ['latin'] })
 
+type Player = {
+    id: number;
+    name: string;
+    creator_flag: boolean;
+    guest_flag: boolean;
+}
+
+type PlayerStat = {
+    id: number;
+    name: string;
+    games_played: number;
+    games_won_as_imposter: number;
+    games_lost_as_imposter: number;
+    times_died_first: number;
+};
+
 // @ts-ignore
 export default function Home({players, playerStats, games, topImposters, topDeaths}) {
     const [selectedPlayer, setSelectedPlayer] = useState<{id: number, name: string} | null>(null);
 
-    // @ts-ignore
-    const filteredStats = selectedPlayer ? playerStats.filter(stats => stats.id === selectedPlayer.id) : playerStats;
+    const filteredStats = (selectedPlayer ? playerStats.filter((stats: PlayerStat) => stats.id === selectedPlayer.id)
+            : playerStats
+    ).sort((a: PlayerStat, b: PlayerStat) => a.name.localeCompare(b.name));
+
+    let sortedPlayers = players.sort((a: Player, b: Player) => a.name.localeCompare(b.name));
 
     return (
         <Grid container direction="column" alignItems="center" spacing={3}>
@@ -34,7 +53,7 @@ export default function Home({players, playerStats, games, topImposters, topDeat
             </Grid>
 
             <Grid container item xs={12} justifyContent="center" spacing={3}>
-                <Grid item xs={6}>
+                <Grid item xs={12} sm={6} md={3}>
                     <Card>
                         <CardContent>
                             <Typography variant="h6">Imposter Wins Leaderboard</Typography>
@@ -45,7 +64,7 @@ export default function Home({players, playerStats, games, topImposters, topDeat
                     </Card>
                 </Grid>
 
-                <Grid item xs={6}>
+                <Grid item xs={12} sm={6} md={3}>
                     <Card>
                         <CardContent>
                             <Typography variant="h6">First Deaths Leaderboard</Typography>
@@ -57,8 +76,9 @@ export default function Home({players, playerStats, games, topImposters, topDeat
                 </Grid>
             </Grid>
 
+
             <Grid item xs={12} style={{ width: '50%', margin: '0 auto' }}>
-                <PlayerDropdown players={players} onSelect={(player) => {
+                <PlayerDropdown players={sortedPlayers} onSelect={(player) => {
                     if (player && player.id !== -1) {
                         setSelectedPlayer(player);
                     } else {
@@ -69,7 +89,7 @@ export default function Home({players, playerStats, games, topImposters, topDeat
 
             <Grid container item xs={12} spacing={3}>
                 {filteredStats.map((player: any) => (
-                    <Grid item xs={12} sm={6} md={4} lg={3} key={player.name}> {/* Updated this line */}
+                    <Grid item xs={12} sm={6} md={4} lg={3} key={player.name}>
                         <Card>
                             <CardContent>
                                 <Typography>Player Name: {player.name}</Typography>
@@ -82,7 +102,6 @@ export default function Home({players, playerStats, games, topImposters, topDeat
                                 </Typography>
                                 <Typography>Imposter Losses: {player.games_lost_as_imposter}</Typography>
                                 <Typography>First Deaths: {player.times_died_first}</Typography>
-                                <Typography>Imposter Win Percentage:</Typography>
                             </CardContent>
                         </Card>
                     </Grid>
@@ -105,28 +124,32 @@ export async function getServerSideProps() {
         headers: headers
     });
     const players = await playersRes.json();
+    console.log("Players Info", players);
 
     const statsRes = await fetch(`${apiUrl}/api/playerStats`, {
         headers: headers
     });
     const playerStats = await statsRes.json();
+    console.log("Player Stats", playerStats);
 
     const gamesRes = await fetch(`${apiUrl}/api/games`, {
         headers: headers
     })
     const games = await gamesRes.json();
+    console.log("Games", games);
 
     const topImpostersRes = await fetch(`${apiUrl}/api/topImposters`, {
         headers: headers
     })
     const topImposters = await topImpostersRes.json();
-    console.log(topImposters);
+    console.log("Top Imposters:", topImposters)
 
     const topDeathsRes = await fetch(`${apiUrl}/api/topDeaths`, {
         headers: headers
     })
     const topDeaths = await topDeathsRes.json();
-    console.log(topDeaths);
+    console.log("Top Deaths:", topDeaths)
+
 
     return {
         props: {players, playerStats, games, topImposters, topDeaths}
