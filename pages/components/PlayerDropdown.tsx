@@ -7,18 +7,12 @@ type Player = {
 };
 
 type Props = {
+    players: Player[];
     onSelect?: (playerId: {id: number, name: string}) => void;
 };
 
-const PlayerDropdown: React.FC<Props> = ({ onSelect }) => {
-    const [players, setPlayers] = useState<Player[]>([]);
+const PlayerDropdown: React.FC<Props> = ({ players, onSelect }) => {
     const [selectedPlayer, setSelectedPlayer] = useState<number | undefined>(undefined);
-
-    useEffect(() => {
-        fetch('/api/players')
-            .then((res) => res.json())
-            .then(setPlayers);
-    }, []);
 
     const handleChange = (e: SelectChangeEvent<number | "">) => {
         const playerId = e.target.value;
