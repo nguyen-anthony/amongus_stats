@@ -9,7 +9,7 @@ import {useEffect, useState} from "react";
 const inter = Inter({ subsets: ['latin'] })
 
 // @ts-ignore
-export default function Home({players, playerStats}) {
+export default function Home({players, playerStats, games}) {
     const [selectedPlayer, setSelectedPlayer] = useState<{id: number, name: string} | null>(null);
 
     // @ts-ignore
@@ -18,6 +18,13 @@ export default function Home({players, playerStats}) {
     return (
         <div>
             <h1>Among Us Stats</h1>
+            <div>
+                <h3>General Stats</h3>
+                <p>Total Games Played: {games.games_played}</p>
+                <p>Total Imposter Wins: {games.imposter_wins}</p>
+                <p>Total Crewmate Wins: {games.crewmate_wins}</p>
+            </div>
+
             <PlayerDropdown players={players} onSelect={setSelectedPlayer} />
 
             {playerStats && selectedPlayer && (
@@ -52,7 +59,12 @@ export async function getServerSideProps() {
     });
     const playerStats = await statsRes.json();
 
+    const gamesRes = await fetch(`${apiUrl}/api/games`, {
+        headers: headers
+    })
+    const games = await gamesRes.json();
+
     return {
-        props: {players, playerStats}
+        props: {players, playerStats, games}
     };
 }
