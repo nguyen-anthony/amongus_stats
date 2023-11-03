@@ -53,7 +53,7 @@ export default function Home({players, playerStats, games, topImposters, topDeat
             </Grid>
 
             <Grid container item xs={12} justifyContent="center" spacing={3}>
-                <Grid item xs={12} sm={6} md={2}>
+                <Grid item xs={12} sm={6} md={3}>
                     <GeneralStatsCard gamesPlayed={games.games_played} imposterWins={games.imposter_wins} crewmateWins={games.crewmate_wins} />
                 </Grid>
             </Grid>
