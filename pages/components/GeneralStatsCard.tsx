@@ -17,7 +17,7 @@ const GeneralStatsCard: React.FC<GeneralStatsProps> = ({ gamesPlayed, imposterWi
     return (
         <Card>
             <CardContent>
-                <Typography variant="h6" align="center">General Stats</Typography>
+                <Typography variant="h4" align="center">General Stats</Typography>
                 {stats.map((stat) => (
                     <Box key={stat.label} display="flex" justifyContent="space-between" mb={1}>
                         <Typography variant="body1" align="left">{stat.label}</Typography>

@@ -36,12 +36,12 @@ const PlayerDropdown: React.FC<Props> = ({ players, onSelect }) => {
 
     return (
         <FormControl fullWidth variant="outlined">
-            <InputLabel id="player-dropdown-label">Player</InputLabel>
+            <InputLabel id="player-dropdown-label">Select a name</InputLabel>
             <Select
                 labelId="player-dropdown-label"
                 value={selectedPlayer}
                 onChange={handleChange}
-                label="Player"
+                label="Select a name"
             >
                 <MenuItem key={0} value={-1}>All</MenuItem>
                 {players.map((player) => (

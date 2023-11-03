@@ -15,7 +15,7 @@ const Leaderboard: React.FC<LeaderboardProps> = ({ title, stats }) => {
     return (
         <Card>
             <CardContent>
-                <Typography variant="h6" align="center">{title}</Typography>
+                <Typography variant="h4" align="center">{title}</Typography>
                 {stats.map((player) => (
                     <Box key={player.name} display="flex" justifyContent="space-between" mb={1}>
                         <Typography variant="body1" align="left">{player.name}</Typography>

@@ -48,8 +48,19 @@ export default function Home({players, playerStats, games, topImposters, topDeat
 
     return (
         <Grid container direction="column" alignItems="center" spacing={3}>
-            <Grid item xs={12}>
-                <Typography variant="h1" align="center">Among Us Stats</Typography>
+            <Grid item xs={12} style={{ position: 'relative', textAlign: 'center' }}>
+                <img src="/images/amongusbanner.png" height="150px" width="1080px" style={{ maxWidth: '100%' }} alt="Among Us Banner"/>
+                <h1 style={{
+                    position: 'absolute',
+                    top: '50%', // centers vertically
+                    left: '50%', // centers horizontally
+                    transform: 'translate(-50%, -50%)', // centers horizontally and vertically
+                    color: 'white', // text color, choose what fits your banner
+                    fontSize: '3rem', // size of the text
+                    // any additional styling
+                }}>
+                    Simmers Amongus Squad
+                </h1>
             </Grid>
 
             <Grid container item xs={12} justifyContent="center" spacing={3}>
@@ -72,8 +83,8 @@ export default function Home({players, playerStats, games, topImposters, topDeat
                 <PlayerDropdown players={sortedPlayers} onSelect={handlePlayerSelection} />
             </Grid>
 
-            {!selectedPlayer && <PlayerGrid title="Regulars" players={regularPlayers} />}
-            {!selectedPlayer && <PlayerGrid title="Guest" players={guestPlayers} />}
+            {!selectedPlayer && <PlayerGrid title="The Squad" players={regularPlayers} />}
+            {!selectedPlayer && <PlayerGrid title="Guest Players" players={guestPlayers} />}
             {selectedPlayer && (<SelectedPlayerGrid selectedPlayer={selectedPlayer} playerStats={sortedStats} />)}
         </Grid>
     );
