@@ -1,5 +1,7 @@
 import React, { useState } from 'react';
 import { Button, Card, CardContent, Collapse, Grid, Typography } from '@mui/material';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faTwitch } from '@fortawesome/free-brands-svg-icons';
 
 type Player = {
     id: number;
@@ -22,15 +24,16 @@ const PlayerCard: React.FC<Props> = ({ player }) => {
     return (
         <Grid item xs={12} sm={6} md={3} key={player.name}>
             <Card>
-                <CardContent>
-                    <img src="/images/blankavatar.png" width="100px" alt={`${player.name}'s avatar`} /> {/* Assuming avatar images are named after the player and stored in a specific directory */}
-                    <Typography>{player.name}</Typography>
-                    {player.creator_flag && <a href={`https://twitch.tv/${player.name}`} target="_blank">Twitch</a>}
+                <CardContent style={{ textAlign: 'center' }}>
+                    <Typography variant="h5">{player.name}</Typography>
+                    <img src="/images/blankavatar.png" width="128px" height="128px" alt={`${player.name}'s avatar`} />
 
-                    <div>
-                        <Button onClick={() => setIsCollapsed(!isCollapsed)}>
-                            {isCollapsed ? "Expand for Player Stats" : "Collapse"}
-                        </Button>
+                    <div style={{ height: '40px', marginTop: '10px' }}> {/* Reserved space */}
+                        {player.creator_flag &&
+                            <a href={`https://twitch.tv/${player.name}`} target="_blank" rel="noreferrer">
+                                <FontAwesomeIcon icon={faTwitch} color="#9146FF" size="2x" />
+                            </a>
+                        }
                     </div>
 
                     <Collapse in={!isCollapsed}>
@@ -44,6 +47,20 @@ const PlayerCard: React.FC<Props> = ({ player }) => {
                         <Typography>Imposter Losses: {player.games_lost_as_imposter}</Typography>
                         <Typography>First Deaths: {player.times_died_first}</Typography>
                     </Collapse>
+
+                    <div onClick={() => setIsCollapsed(!isCollapsed)} style={{
+                        width: '100%',
+                        height: '40px',
+                        backgroundColor: '#424242',
+                        marginTop: '10px',
+                        display: 'flex',
+                        alignItems: 'center',
+                        justifyContent: 'center',
+                        cursor: 'pointer',
+                        color: 'white'
+                    }}>
+                        {isCollapsed ? `Expand for ${player.name}'s Stats` : "Collapse"}
+                    </div>
                 </CardContent>
             </Card>
         </Grid>

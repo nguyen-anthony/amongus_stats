@@ -52,8 +52,10 @@ export default function Home({players, playerStats, games, topImposters, topDeat
                 <Typography variant="h1" align="center">Among Us Stats</Typography>
             </Grid>
 
-            <Grid item xs={12}>
-                <GeneralStatsCard gamesPlayed={games.games_played} imposterWins={games.imposter_wins} crewmateWins={games.crewmate_wins} />
+            <Grid container item xs={12} justifyContent="center" spacing={3}>
+                <Grid item xs={12} sm={6} md={2}>
+                    <GeneralStatsCard gamesPlayed={games.games_played} imposterWins={games.imposter_wins} crewmateWins={games.crewmate_wins} />
+                </Grid>
             </Grid>
 
             <Grid container item xs={12} justifyContent="center" spacing={3}>
