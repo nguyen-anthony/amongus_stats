@@ -45,7 +45,7 @@ const PlayerCard: React.FC<Props> = ({ player }) => {
             const cachedAvatarData = getAvatarDataFromLocalStorage(player.name);
 
             // Check if we have valid cached data
-            if (cachedAvatarData && isCacheValid(cachedAvatarData.timestamp, 60 * 60 * 1000)) { // 1 hour cache validity
+            if (cachedAvatarData && isCacheValid(cachedAvatarData.timestamp, 7 * 24 * 60 * 60 * 1000)) {
                 setAvatarUrl(cachedAvatarData.url);
             } else {
                 const response = await fetch(`/api/twitchAvatar?playerName=${player.name}`);
