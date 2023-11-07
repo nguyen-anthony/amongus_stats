@@ -23,12 +23,37 @@ const PlayerCard: React.FC<Props> = ({ player }) => {
     const [avatarUrl, setAvatarUrl] = useState("/images/blankavatar.png");
     const [status, setStatus] = useState("offline");
 
+    const saveAvatarDataToLocalStorage = (playerName: string, avatarUrl: string) => {
+        const avatarData = {
+            url: avatarUrl,
+            timestamp: new Date().getTime(),
+        };
+        localStorage.setItem(`avatarData_${playerName}`, JSON.stringify(avatarData));
+    };
+
+    const getAvatarDataFromLocalStorage = (playerName: string) => {
+        const avatarData = localStorage.getItem(`avatarData_${playerName}`);
+        return avatarData ? JSON.parse(avatarData) : null;
+    };
+
+    const isCacheValid = (timestamp: number, expiryDuration: number) => {
+        return new Date().getTime() - timestamp < expiryDuration;
+    };
+
     useEffect(() => {
         const fetchTwitchAvatar = async () => {
-            const response = await fetch(`/api/twitchAvatar?playerName=${player.name}`);
-            const data = await response.json();
-            setAvatarUrl(data.profileImageUrl);
-        }
+            const cachedAvatarData = getAvatarDataFromLocalStorage(player.name);
+
+            // Check if we have valid cached data
+            if (cachedAvatarData && isCacheValid(cachedAvatarData.timestamp, 60 * 60 * 1000)) { // 1 hour cache validity
+                setAvatarUrl(cachedAvatarData.url);
+            } else {
+                const response = await fetch(`/api/twitchAvatar?playerName=${player.name}`);
+                const data = await response.json();
+                setAvatarUrl(data.profileImageUrl);
+                saveAvatarDataToLocalStorage(player.name, data.profileImageUrl);
+            }
+        };
 
         fetchTwitchAvatar();
     }, [player.name]);
