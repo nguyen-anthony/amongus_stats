@@ -16,8 +16,7 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
                      JOIN amongus ON players.id = ANY(amongus.imposters)
             WHERE amongus.winning_team = 'Imposters'
             GROUP BY players.name
-            ORDER BY count desc
-            limit 5;
+            ORDER BY count desc;
         `;
 
         const result = await client.query(query);

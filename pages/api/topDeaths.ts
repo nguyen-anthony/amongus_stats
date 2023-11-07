@@ -15,8 +15,7 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
             from players p
                      join amongus a on p.id = a.first_death
             group by p.name
-            order by count desc
-            limit 5;
+            order by count desc;
         `;
 
         const result = await client.query(query);

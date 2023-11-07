@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import {FormControl, InputLabel, MenuItem, Select, SelectChangeEvent} from '@mui/material';
+import {FormControl, InputLabel, MenuItem, Select, SelectChangeEvent, Typography} from '@mui/material';
 
 type Player = {
     id: number;
@@ -35,7 +35,9 @@ const PlayerDropdown: React.FC<Props> = ({ players, onSelect }) => {
 
 
     return (
-        <FormControl fullWidth variant="outlined">
+        <>
+            <Typography variant="h4" align="center">Search for a player</Typography>
+            <FormControl fullWidth variant="outlined">
             <InputLabel id="player-dropdown-label">Select a name</InputLabel>
             <Select
                 labelId="player-dropdown-label"
@@ -50,7 +52,8 @@ const PlayerDropdown: React.FC<Props> = ({ players, onSelect }) => {
                     </MenuItem>
                 ))}
             </Select>
-        </FormControl>
+            </FormControl>
+        </>
     );
 };
 

@@ -5,11 +5,12 @@ import styles from '@/styles/Home.module.css'
 import {NextPage} from "next";
 import PlayerDropdown from "@/pages/components/PlayerDropdown";
 import {useState} from "react";
-import { Grid, Typography } from '@mui/material';
+import { Grid } from '@mui/material';
 import Leaderboard from "@/pages/components/Leaderboard";
 import PlayerGrid from "@/pages/components/PlayerGrid";
 import GeneralStatsCard from "@/pages/components/GeneralStatsCard";
 import SelectedPlayerGrid from "@/pages/components/SelectedPlayerGrid";
+import YouTubeGallery from "@/pages/components/YouTubeGallery";
 
 type Player = {
     id: number;
@@ -37,6 +38,9 @@ export default function Home({players, playerStats, games, topImposters, topDeat
     const guestPlayers = sortedStats.filter((stats: PlayerStat) => stats.guest_flag);
 
     let sortedPlayers = players.sort((a: Player, b: Player) => a.name.localeCompare(b.name));
+
+    const videoIds = ['k9hyZg8Gf_E', 'Ydg_5hJmBAg', 'XyaZ5Mp7jfU', 'YvWJ_v9YpVo', 'FS59Ui16ZBs']; // Add your video IDs here
+
 
     const handlePlayerSelection = (player: {id: number, name: string} | null) => {
         if (player && player.id !== -1) {
@@ -71,11 +75,16 @@ export default function Home({players, playerStats, games, topImposters, topDeat
 
             <Grid container item xs={12} justifyContent="center" spacing={3}>
                 <Grid item xs={12} sm={6} md={3}>
-                    <Leaderboard title={"Imposter Wins Leaderboard"} stats={topImposters} />
+                    <Leaderboard title={"Imposter Wins"} stats={topImposters} />
                 </Grid>
 
                 <Grid item xs={12} sm={6} md={3}>
-                    <Leaderboard title={"First Deaths Leaderboard"} stats={topDeaths} />
+                    <Leaderboard title={"First Deaths"} stats={topDeaths} />
+                </Grid>
+            </Grid>
+            <Grid container item xs={12} justifyContent="center">
+                <Grid item xs={3}>
+                    <YouTubeGallery videoIds={videoIds} />
                 </Grid>
             </Grid>
 
