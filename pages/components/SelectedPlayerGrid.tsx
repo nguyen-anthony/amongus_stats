@@ -19,11 +19,11 @@ type PlayerStat = {
 };
 
 const SelectedPlayerGrid: React.FC<SelectedPlayerGridProps> = ({ selectedPlayer, playerStats }) => {
-    const filteredStats = playerStats.filter(stats => stats.id === selectedPlayer.id);
+    const filteredStats = (playerStats && playerStats.filter(stats => stats.id === selectedPlayer.id));
 
     return (
         <Grid container item xs={12} spacing={3} justifyContent="center" alignItems="center">
-            {filteredStats.map((player) => (
+            {filteredStats && filteredStats.map((player) => (
                 <PlayerCard player={player} />
             ))}
         </Grid>

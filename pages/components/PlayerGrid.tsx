@@ -22,8 +22,8 @@ const PlayerGrid: React.FC<PlayerGridProps> = ({ title, players }) => (
     <>
         <Typography variant="h4" align="center">{title}</Typography>
         <Grid container item xs={12} spacing={3} justifyContent="center">
-            {players.map((player) => (
-                <PlayerCard key={player.id} player={player} />
+            {players && players.map((player) => (
+                <PlayerCard key={player.id} player={player}/>
             ))}
         </Grid>
     </>

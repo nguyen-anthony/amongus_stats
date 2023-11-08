@@ -4,21 +4,23 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faTwitch } from '@fortawesome/free-brands-svg-icons';
 
 type Player = {
-    id: number;
-    name: string;
-    games_played: number;
-    games_won_as_imposter: number;
-    games_lost_as_imposter: number;
-    times_died_first: number;
-    creator_flag: boolean;
-    guest_flag: boolean;
+    id?: number;
+    name?: string;
+    games_played?: number;
+    games_won_as_imposter?: number;
+    games_lost_as_imposter?: number;
+    times_died_first?: number;
+    creator_flag?: boolean;
+    guest_flag?: boolean;
 };
 
 type Props = {
-    player: Player;
+    player?: Player; // Make the player object itself optional
 };
 
-const PlayerCard: React.FC<Props> = ({ player }) => {
+const PlayerCard: React.FC<Props> = ({ player= {
+    id: 0, name: "player", games_played: 0, games_won_as_imposter: 0, games_lost_as_imposter: 0, times_died_first: 0, creator_flag: false, guest_flag: false
+} }) => {
     const [isCollapsed, setIsCollapsed] = useState(true);
     const [avatarUrl, setAvatarUrl] = useState("/images/blankavatar.png");
     const [status, setStatus] = useState("offline");
@@ -42,21 +44,23 @@ const PlayerCard: React.FC<Props> = ({ player }) => {
 
     useEffect(() => {
         const fetchTwitchAvatar = async () => {
-            const cachedAvatarData = getAvatarDataFromLocalStorage(player.name);
+            const cachedAvatarData = getAvatarDataFromLocalStorage(player.name || "");
 
             // Check if we have valid cached data
-            if (cachedAvatarData && isCacheValid(cachedAvatarData.timestamp, 7 * 24 * 60 * 60 * 1000)) {
-                setAvatarUrl(cachedAvatarData.url);
-            } else {
-                const response = await fetch(`/api/twitchAvatar?playerName=${player.name}`);
-                const data = await response.json();
-                setAvatarUrl(data.profileImageUrl);
-                saveAvatarDataToLocalStorage(player.name, data.profileImageUrl);
+            if(player.creator_flag) {
+                if (cachedAvatarData && isCacheValid(cachedAvatarData.timestamp, 7 * 24 * 60 * 60 * 1000)) {
+                    setAvatarUrl(cachedAvatarData.url);
+                } else {
+                    const response = await fetch(`/api/twitchAvatar?playerName=${player.name}`);
+                    const data = await response.json();
+                    setAvatarUrl(data.profileImageUrl);
+                    saveAvatarDataToLocalStorage(player.name || "", data.profileImageUrl);
+                }
             }
         };
 
         fetchTwitchAvatar();
-    }, [player.name]);
+    }, [player]);
 
     useEffect(() => {
         const fetchTwitchStatus = async () => {
@@ -103,7 +107,7 @@ const PlayerCard: React.FC<Props> = ({ player }) => {
                         <Box key={player.name} display="flex" justifyContent="space-between" mb={1}>
                             <Typography variant="body1" align="left">Imposter Win/Loss Ratio</Typography>
                             <Typography variant="body1" align="right">{player.games_lost_as_imposter !== 0
-                                ? (player.games_won_as_imposter / player.games_lost_as_imposter).toFixed(2)
+                                ? ((player.games_won_as_imposter || 1) / (player.games_lost_as_imposter || 1)).toFixed(2)
                                 : 'N/A'}</Typography>
                         </Box>
                         <Box key={player.name} display="flex" justifyContent="space-between" mb={1}>

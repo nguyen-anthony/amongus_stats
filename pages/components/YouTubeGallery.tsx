@@ -22,7 +22,7 @@ const YouTubeGallery: React.FC<YouTubeGalleryProps> = ({ videoIds }) => {
                     autoPlay={false}
                     dynamicHeight={true}
                 >
-                    {videoIds.map((id) => (
+                    {videoIds && videoIds.map((id) => (
                         <div key={id}>
                             <iframe
                                 width="100%"
