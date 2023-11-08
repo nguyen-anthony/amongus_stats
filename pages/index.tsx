@@ -53,7 +53,7 @@ export default function Home({players, playerStats, games, topImposters, topDeat
     return (
         <Grid container direction="column" alignItems="center" spacing={3}>
             <Grid item xs={12} style={{ position: 'relative', textAlign: 'center' }}>
-                <img src="/images/amongusbanner.png" height="150px" width="1080px" style={{ maxWidth: '100%' }} alt="Among Us Banner"/>
+                <img src="/images/amongusbannerbetter.png" height="150px" width="1080px" style={{ maxWidth: '100%' }} alt="Among Us Banner"/>
                 <h1 style={{
                     position: 'absolute',
                     top: '50%', // centers vertically
