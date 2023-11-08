@@ -1,16 +1,19 @@
-// api/db.ts
-
 import { Pool, PoolConfig } from 'pg';
 import { parse } from 'pg-connection-string';
 
+// The connection string is expected to be in the DATABASE_URL environment variable when deployed.
+const connectionString = process.env.DATABASE_URL;
+
 let pool: Pool;
 
-if (process.env.DATABASE_URL) {
-    // When running on Heroku, use the DATABASE_URL
+if (connectionString) {
+    // Parse the connection string if it is available (for deployed environments)
     // @ts-ignore
     const config: PoolConfig = {
-        ...parse(process.env.DATABASE_URL),
-        ssl: { rejectUnauthorized: false } // this is needed for Heroku's self-signed certificates
+        ...parse(connectionString),
+        // Add SSL config only if required, which might not be needed for Render
+        // If Render requires SSL, uncomment the line below and adjust as necessary.
+        // ssl: { rejectUnauthorized: false },
     };
     pool = new Pool(config);
 } else {
