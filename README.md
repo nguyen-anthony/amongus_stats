@@ -1,5 +1,18 @@
 This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
 
+# Amongus Simmers Stats Page
+
+This is a basic project for the Simmers (and friends) content creators monthly Amongus games.
+This connects to a PostgreSQL database that holds all the information for every game played by the group.
+This displays all the data for each player and overall stats on a simple web page.
+
+Uses MaterialUI, NextJS framework, and TypeScript.
+
+![image](https://github.com/nguyen-anthony/amongus_stats/assets/53980868/8742dca8-f2ca-4a46-8e49-8b89c62a0cf0)
+
+
+This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+
 ## Getting Started
 
 First, run the development server:
