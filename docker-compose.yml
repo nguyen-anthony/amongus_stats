@@ -1,0 +1,14 @@
+version: '3.8'
+services:
+  db:
+    image: postgres:latest
+    environment:
+      POSTGRES_DB: amongus
+      POSTGRES_USER: amongus
+      POSTGRES_PASSWORD: amongus_password
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    ports:
+      - "5432:5432"
+volumes:
+  postgres_data:
